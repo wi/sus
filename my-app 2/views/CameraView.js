@@ -10,7 +10,18 @@ export default function CameraView({ navigation }) {
   const [permission, requestPermission] = useCameraPermissions();
 
   if (!permission) {
-    return <View />;
+    return <View style={styles.container}><Text>Requesting camera permissions...</Text></View>;
+  }
+
+  if (!permission.granted) {
+    return (
+      <View style={styles.permissionContainer}>
+        <Text style={styles.permissionText}>We need your permission to show the camera</Text>
+        <TouchableOpacity onPress={requestPermission} style={styles.permissionButton}>
+          <Text style={styles.permissionButtonText}>Grant Permission</Text>
+        </TouchableOpacity>
+      </View>
+    );
   }
 
   function toggleCameraFacing() {
@@ -70,5 +81,28 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: 'white',
+  },
+  permissionContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#1a2980',
+    padding: 20,
+  },
+  permissionText: {
+    color: 'white',
+    fontSize: 18,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  permissionButton: {
+    backgroundColor: 'white',
+    padding: 15,
+    borderRadius: 10,
+  },
+  permissionButtonText: {
+    color: '#1a2980',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
