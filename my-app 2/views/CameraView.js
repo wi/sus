@@ -1,8 +1,11 @@
-import { CameraView as ExpoCameraView, CameraType, useCameraPermissions } from 'expo-camera';
+import { CameraView as ExpoCameraView, useCameraPermissions } from 'expo-camera';
 import { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, SafeAreaView } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
-export default function CameraView() {
+export default function CameraView({ navigation }) {
   const [facing, setFacing] = useState('back');
   const [permission, requestPermission] = useCameraPermissions();
 
@@ -15,22 +18,36 @@ export default function CameraView() {
   }
 
   return (
-    <View style={styles.container}>
-      <ExpoCameraView style={styles.camera} facing={facing}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
-            <Text style={styles.text}>Flip Camera</Text>
-          </TouchableOpacity>
-        </View>
-      </ExpoCameraView>
-    </View>
+    <LinearGradient
+      colors={['#1a2980', '#004d40']}
+      style={styles.gradientContainer}
+    >
+      <SafeAreaView style={styles.container}>
+        {/* Header */}
+        <Header title="Camera" navigation={navigation} />
+        
+        <ExpoCameraView style={styles.camera} facing={facing}>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
+              <Text style={styles.text}>Flip Camera</Text>
+            </TouchableOpacity>
+          </View>
+        </ExpoCameraView>
+        
+        {/* Footer */}
+        <Footer navigation={navigation} currentScreen="Camera" />
+      </SafeAreaView>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
+  gradientContainer: {
+    flex: 1,
+  },
   container: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: 'transparent',
   },
   camera: {
     flex: 1,
@@ -45,10 +62,13 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'flex-end',
     alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    padding: 10,
+    borderRadius: 20,
   },
   text: {
     fontSize: 24,
     fontWeight: 'bold',
     color: 'white',
   },
-}); 
+});
