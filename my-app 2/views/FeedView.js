@@ -10,64 +10,65 @@ const FeedView = ({ navigation }) => {
     {
       id: '1',
       user: {
-        name: 'sustainableliving',
-        profilePic: 'https://randomuser.me/api/portraits/women/43.jpg',
+        name: 'leaflord22',
+        profilePic: 'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg', // guy with glasses
       },
-      image: 'https://images.unsplash.com/photo-1501084817091-a4f3d1d19e07',
-      caption: 'Connecting with nature is essential for sustainable living 🌿 #NatureLovers #Sustainability',
-      likes: 245,
-      comments: 18,
-      time: '2 hours ago',
+      image: 'https://images.unsplash.com/photo-1558981403-c5f9891d6edb', // bike on campus
+      caption: "Biked to class today. Knees hurt, but the planet's happy 😤🌍 #LegDayEveryDay #EcoWheels",
+      likes: 412,
+      comments: 23,
+      time: '25 minutes ago',
     },
     {
       id: '2',
       user: {
-        name: 'eco_warrior',
-        profilePic: 'https://randomuser.me/api/portraits/men/32.jpg',
+        name: 'eco.kween',
+        profilePic: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg', // girl in yellow
       },
-      image: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09',
-      caption: 'Home-grown organic vegetables - zero carbon footprint and maximum nutrition! #OrganicGardening #SustainableLiving',
-      likes: 578,
-      comments: 42,
-      time: '5 hours ago',
+      image: 'https://images.unsplash.com/photo-1602524207890-bd4d5e4f7a63', // tote bag
+      caption: "Brought my tote bag to Target and felt morally superior for 5 mins 💅♻️ #ToteLife #NoPlasticNovember",
+      likes: 603,
+      comments: 51,
+      time: '2 hours ago',
     },
     {
       id: '3',
       user: {
-        name: 'green_planet',
-        profilePic: 'https://randomuser.me/api/portraits/women/22.jpg',
+        name: 'dormplantdad',
+        profilePic: 'https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg', // dude w/ beard
       },
-      image: 'https://images.unsplash.com/photo-1532408840957-031d8034aeef',
-      caption: 'Reusable containers are a simple way to reduce waste. Start small, impact big! 🌎 #ZeroWaste #EcoFriendly',
-      likes: 892,
-      comments: 67,
-      time: '1 day ago',
+      image: 'https://images.unsplash.com/photo-1571934811375-d0d0f6a4f6f8', // indoor garden
+      caption: "Turned my dorm into a jungle. Oxygen levels at 300%. RA hasn’t noticed 🌿🌱 #PlantDad #O2Boost",
+      likes: 729,
+      comments: 39,
+      time: '4 hours ago',
     },
     {
       id: '4',
       user: {
-        name: 'earth_conscious',
-        profilePic: 'https://randomuser.me/api/portraits/men/45.jpg',
+        name: 'paperstrugs',
+        profilePic: 'https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg', // student w/ glasses
       },
-      image: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05',
-      caption: 'Morning hike through the misty mountains. Remember to respect nature and leave no trace. #WildernessEthics #NatureLover',
-      likes: 1203,
-      comments: 95,
-      time: '1 day ago',
+      image: 'https://images.unsplash.com/photo-1569078449082-c7b0f016a9d2', // paper straw in iced coffee
+      caption: "Used a paper straw. It dissolved in 3 minutes. I persevered. Planet saved. 🥲 #PaperStrawPain",
+      likes: 489,
+      comments: 60,
+      time: '6 hours ago',
     },
     {
       id: '5',
       user: {
-        name: 'sustainable_style',
-        profilePic: 'https://randomuser.me/api/portraits/women/65.jpg',
+        name: 'greenchick69',
+        profilePic: 'https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg', // fun girl pic
       },
-      image: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba',
-      caption: 'Sustainable fashion doesn\'t mean sacrificing style. This outfit is made from recycled materials! #SustainableFashion #EcoStyle',
-      likes: 756,
-      comments: 38,
-      time: '2 days ago',
-    }
+      image: 'https://images.unsplash.com/photo-1610878180933-e01f6607b8ab', // thrift haul
+      caption: "Thrift haul >> fast fashion. This whole outfit cost less than a venti iced oat milk latte 😌✨ #SustainableFitCheck",
+      likes: 893,
+      comments: 71,
+      time: '1 day ago',
+    },
   ]);
+  
 
   const renderPost = ({ item }) => (
     <View style={styles.post}>

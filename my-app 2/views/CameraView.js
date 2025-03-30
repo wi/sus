@@ -464,7 +464,7 @@ export default function CameraView({ navigation }) {
     >
       <SafeAreaView style={styles.container}>
         {/* Header */}
-        <Header title="Object Detection" navigation={navigation} />
+        <Header title="AR Scan" navigation={navigation} />
         
         {/* Daily Quest Objective */}
         <View style={styles.objectiveContainer}>
