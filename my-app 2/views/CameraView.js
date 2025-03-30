@@ -106,6 +106,9 @@ export default function CameraView({ navigation }) {
   const [predictions, setPredictions] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   
+  // New state for selected object
+  const [selectedObject, setSelectedObject] = useState(null);
+  
   // Photo capture state
   const [capturedPhoto, setCapturedPhoto] = useState(null);
   const [isReviewingPhoto, setIsReviewingPhoto] = useState(false);
@@ -420,6 +423,17 @@ export default function CameraView({ navigation }) {
     }
   };
 
+  // Function to handle tapping on a detection box
+  const handleObjectTap = (prediction) => {
+    if (prediction.class === 'bottle' || prediction.class === 'cup') {
+      setSelectedObject('bottle'); // Treat both bottles and cups the same
+    } else if (prediction.class === 'car') {
+      setSelectedObject('car');
+    } else {
+      setSelectedObject(null);
+    }
+  };
+
   if (!permission) {
     return (
       <View style={styles.permissionContainer}>
@@ -510,14 +524,19 @@ export default function CameraView({ navigation }) {
                     ? '#00ff00' // Bright green for bottles and cups
                     : borderColors[index % 5];
                     
+                  // Higher z-index for bottle, cup and car objects
+                  const priorityObject = p.class === 'bottle' || p.class === 'cup' || p.class === 'car';
+                  const zIndexValue = priorityObject ? 5 : 2;
+                  const elevationValue = priorityObject ? 5 : 2;
+                  
                   return (
                     <View key={index}>
                       {/* Label on top of the bounding box */}
                       <View
                         style={{
                           position: "absolute",
-                          zIndex: 2,
-                          elevation: 2,
+                          zIndex: zIndexValue + 1,
+                          elevation: elevationValue + 1,
                           left: p.bbox[0] * scalingFactor,
                           top: (p.bbox[1] * scalingFactor) - 22, // Position above the box
                           backgroundColor: color,
@@ -535,11 +554,11 @@ export default function CameraView({ navigation }) {
                           {p.class} {Math.round(p.score * 100)}%
                         </Text>
                       </View>
-                      {/* Bounding box */}
-                      <View
+                      {/* Bounding box - now touchable */}
+                      <TouchableOpacity
                         style={{
-                          zIndex: 1,
-                          elevation: 1,
+                          zIndex: zIndexValue,
+                          elevation: elevationValue,
                           left: p.bbox[0] * scalingFactor,
                           top: p.bbox[1] * scalingFactor,
                           width: p.bbox[2] * scalingFactor,
@@ -549,6 +568,8 @@ export default function CameraView({ navigation }) {
                           backgroundColor: "transparent",
                           position: "absolute",
                         }}
+                        onPress={() => handleObjectTap(p)}
+                        activeOpacity={0.6}
                       />
                     </View>
                   );
@@ -560,6 +581,14 @@ export default function CameraView({ navigation }) {
                   <View style={styles.captureButtonInner} />
                 </TouchableOpacity>
               </View>
+
+              {/* Carbon Stats Panel */}
+              {selectedObject && (
+                <StatsPanel 
+                  objectType={selectedObject} 
+                  onClose={() => setSelectedObject(null)} 
+                />
+              )}
             </ExpoCameraView>
           ) : (
             // Frozen camera view with captured image
@@ -580,14 +609,19 @@ export default function CameraView({ navigation }) {
                   ? '#00ff00' // Bright green for bottles and cups
                   : borderColors[index % 5];
                   
+                // Higher z-index for bottle, cup and car objects
+                const priorityObject = p.class === 'bottle' || p.class === 'cup' || p.class === 'car';
+                const zIndexValue = priorityObject ? 5 : 1;
+                const elevationValue = priorityObject ? 5 : 1;
+                  
                 return (
                   <View key={index}>
                     {/* Label on top of the bounding box */}
                     <View
                       style={{
                         position: "absolute",
-                        zIndex: 2,
-                        elevation: 2,
+                        zIndex: zIndexValue + 1,
+                        elevation: elevationValue + 1,
                         left: p.bbox[0] * scalingFactor,
                         top: (p.bbox[1] * scalingFactor) - 22, // Position above the box
                         backgroundColor: color,
@@ -605,11 +639,11 @@ export default function CameraView({ navigation }) {
                         {p.class} {Math.round(p.score * 100)}%
                       </Text>
                     </View>
-                    {/* Bounding box */}
-                    <View
+                    {/* Bounding box - now touchable */}
+                    <TouchableOpacity
                       style={{
-                        zIndex: 1,
-                        elevation: 1,
+                        zIndex: zIndexValue,
+                        elevation: elevationValue,
                         left: p.bbox[0] * scalingFactor,
                         top: p.bbox[1] * scalingFactor,
                         width: p.bbox[2] * scalingFactor,
@@ -619,6 +653,8 @@ export default function CameraView({ navigation }) {
                         backgroundColor: "transparent",
                         position: "absolute",
                       }}
+                      onPress={() => handleObjectTap(p)}
+                      activeOpacity={0.6}
                     />
                   </View>
                 );
@@ -654,6 +690,14 @@ export default function CameraView({ navigation }) {
                   </Text>
                 </TouchableOpacity>
               </View>
+
+              {/* Carbon Stats Panel in review mode */}
+              {selectedObject && (
+                <StatsPanel 
+                  objectType={selectedObject} 
+                  onClose={() => setSelectedObject(null)} 
+                />
+              )}
             </View>
           )}
         </View>
@@ -673,6 +717,138 @@ export default function CameraView({ navigation }) {
     </LinearGradient>
   );
 }
+
+// Carbon emission stats panel component
+const StatsPanel = ({ objectType, onClose }) => {
+  // Hardcoded stats based on object type
+  const getStats = () => {
+    if (objectType === 'bottle') {
+      return {
+        title: 'Plastic Bottle Impact',
+        stats: [
+          { label: 'CO2 per bottle', value: '82.8g' },
+          { label: 'Production emissions', value: '40%' },
+          { label: 'Decomposition time', value: '450 years' },
+          { label: 'Recycling rate', value: 'Only 9%' }
+        ],
+        tip: 'Using a reusable bottle can save 1,460 plastic bottles per year.'
+      };
+    } else if (objectType === 'car') {
+      return {
+        title: 'Average Car Emissions',
+        stats: [
+          { label: 'CO2 per mile', value: '404g' },
+          { label: 'Annual emissions', value: '4.6 tons' },
+          { label: 'Fuel efficiency', value: '25.4 mpg' },
+          { label: 'EV comparison', value: '50-60% less CO2' }
+        ],
+        tip: 'Walking or cycling for short trips can reduce your carbon footprint significantly.'
+      };
+    }
+    return { title: '', stats: [], tip: '' };
+  };
+
+  const { title, stats, tip } = getStats();
+
+  return (
+    <View style={statsPanelStyles.container}>
+      {/* Header with close button */}
+      <View style={statsPanelStyles.header}>
+        <Text style={statsPanelStyles.title}>{title}</Text>
+        <TouchableOpacity onPress={onClose} style={statsPanelStyles.closeButton}>
+          <Text style={statsPanelStyles.closeButtonText}>×</Text>
+        </TouchableOpacity>
+      </View>
+      
+      {/* Stats */}
+      <View style={statsPanelStyles.statsContainer}>
+        {stats.map((stat, index) => (
+          <View key={index} style={statsPanelStyles.statItem}>
+            <Text style={statsPanelStyles.statLabel}>{stat.label}:</Text>
+            <Text style={statsPanelStyles.statValue}>{stat.value}</Text>
+          </View>
+        ))}
+      </View>
+      
+      {/* Tip */}
+      <View style={statsPanelStyles.tipContainer}>
+        <Text style={statsPanelStyles.tipText}>💡 {tip}</Text>
+      </View>
+    </View>
+  );
+};
+
+const statsPanelStyles = StyleSheet.create({
+  container: {
+    position: 'absolute',
+    bottom: 100,
+    left: 20,
+    right: 20,
+    backgroundColor: 'rgba(0, 0, 0, 0.85)',
+    borderRadius: 15,
+    padding: 15,
+    zIndex: 100,
+    elevation: 10,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.2)',
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(255, 255, 255, 0.2)',
+    paddingBottom: 8,
+  },
+  title: {
+    color: '#4caf50',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  closeButton: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  closeButtonText: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+    lineHeight: 20,
+  },
+  statsContainer: {
+    marginVertical: 5,
+  },
+  statItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 4,
+  },
+  statLabel: {
+    color: '#e0e0e0',
+    fontSize: 14,
+  },
+  statValue: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  tipContainer: {
+    marginTop: 10,
+    backgroundColor: 'rgba(76, 175, 80, 0.2)',
+    borderRadius: 10,
+    padding: 10,
+  },
+  tipText: {
+    color: '#ffffff',
+    fontSize: 14,
+    fontStyle: 'italic',
+  },
+});
 
 const styles = StyleSheet.create({
   gradientContainer: {
