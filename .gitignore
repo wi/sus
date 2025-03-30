@@ -3,3 +3,4 @@
 **/*.pyc
 **/.venv
 **/key.json
+.env

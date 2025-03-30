@@ -4,23 +4,47 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-const LeaderboardView = ({ navigation }) => {
-  // Sample data - replace with API calls in a real application
-  const [leaderboardData, setLeaderboardData] = useState([
-    { id: '1', name: 'John Doe', points: 950, avatar: 'https://randomuser.me/api/portraits/men/1.jpg' },
-    { id: '2', name: 'Jane Smith', points: 875, avatar: 'https://randomuser.me/api/portraits/women/1.jpg' },
-    { id: '3', name: 'Robert Johnson', points: 810, avatar: 'https://randomuser.me/api/portraits/men/2.jpg' },
-    { id: '4', name: 'Emily Davis', points: 790, avatar: 'https://randomuser.me/api/portraits/women/2.jpg' },
-    { id: '5', name: 'Michael Brown', points: 760, avatar: 'https://randomuser.me/api/portraits/men/3.jpg' },
-    { id: '6', name: 'Sarah Wilson', points: 720, avatar: 'https://randomuser.me/api/portraits/women/3.jpg' },
-    { id: '7', name: 'David Miller', points: 705, avatar: 'https://randomuser.me/api/portraits/men/4.jpg' },
-    { id: '8', name: 'Jessica Taylor', points: 690, avatar: 'https://randomuser.me/api/portraits/women/4.jpg' },
-  ]);
+function getRandomInt() {
+  return Math.floor(Math.random() * 10 + 1);
+}
 
-  // Sort data in descending order by points
+const LeaderboardView = ({ navigation }) => {
+  // We start with an empty array
+  const [leaderboardData, setLeaderboardData] = useState([]);
+
+  // Fetch data from your Flask API on component mount
   useEffect(() => {
-    const sortedData = [...leaderboardData].sort((a, b) => b.points - a.points);
-    setLeaderboardData(sortedData);
+    const fetchLeaderboard = async () => {
+      try {
+        // adjust to your ip address
+        const response = await fetch('http://10.142.38.56:5000');
+        const data = await response.json();
+
+        console.log(data);
+
+        // data should be an array of user objects: 
+        //   [{ id, username, sustainability_score, email }, ...]
+        // Map them to the structure your leaderboard expects
+        const mappedData = data.map((user) => ({
+          id: user.id,
+          name: user.username,
+          points: user.sustainability_score,
+          // If you don't have an avatar URL in your DB,
+          // you can provide a fallback or generate one
+          avatar: user.avatar || 'https://randomuser.me/api/portraits/men/' + getRandomInt() + '.jpg',
+        }));
+
+        // If the backend isn't already returning them sorted,
+        // sort them here in descending order by points
+        //mappedData.sort((a, b) => b.points - a.points);
+
+        setLeaderboardData(mappedData);
+      } catch (error) {
+        console.error('Error fetching leaderboard:', error);
+      }
+    };
+
+    fetchLeaderboard();
   }, []);
 
   const renderItem = ({ item, index }) => {
