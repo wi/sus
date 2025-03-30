@@ -1,9 +1,8 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeView from './views/HomeView';
+import HomeFeedView from './views/HomeFeedView';
 import CameraView from './views/CameraView';
 import ProfileView from './views/ProfileView';
-import FeedView from './views/FeedView';
 import LeaderboardView from './views/LeaderboardView';
 
 const Stack = createNativeStackNavigator();
@@ -11,16 +10,11 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
         <Stack.Screen 
           name="Home" 
-          component={HomeView} 
+          component={HomeFeedView} 
           options={{ title: 'Welcome' }}
-        />
-        <Stack.Screen 
-          name="Feed" 
-          component={FeedView} 
-          options={{ title: 'For You' }}
         />
         <Stack.Screen 
           name="Camera" 

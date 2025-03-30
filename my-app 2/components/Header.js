@@ -11,7 +11,7 @@ const Header = ({ title, navigation }) => {
           style={styles.iconButton}
           onPress={() => navigation.navigate('Profile')}
         >
-          <Ionicons name="person-outline" size={28} color="white" />
+          <Ionicons name="person-outline" size={26} color="#212121" />
         </TouchableOpacity>
       </View>
     </View>
@@ -24,20 +24,22 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 15,
-    height: 50,
-    borderBottomWidth: 0.5,
-    borderBottomColor: '#3a506b',
+    height: 55,
+    backgroundColor: '#FAFAFA',
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E0E0',
+    elevation: 2,
   },
   headerTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white',
+    fontSize: 22,
+    fontWeight: '600',
+    color: '#2E7D32',
   },
   headerIcons: {
     flexDirection: 'row',
   },
   iconButton: {
-    padding: 5,
+    padding: 6,
   },
 });
 

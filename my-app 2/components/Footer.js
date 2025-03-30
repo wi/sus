@@ -11,7 +11,7 @@ const Footer = ({ navigation, currentScreen }) => {
         onPress={() => navigation.navigate('Camera')}
       >
         <View style={styles.buttonCircle}>
-          <Ionicons name="camera-outline" size={40} color="white" />
+          <Ionicons name="camera-outline" size={32} color="white" />
         </View>
       </TouchableOpacity>
 
@@ -19,15 +19,14 @@ const Footer = ({ navigation, currentScreen }) => {
       <View style={styles.footer}>
         <TouchableOpacity 
           style={styles.footerIcon}
-          onPress={() => navigation.navigate('Feed')}
+          onPress={() => navigation.navigate('Home')}
         >
           <Ionicons 
             name={currentScreen === 'Feed' ? "home" : "home-outline"} 
-            size={28} 
-            color="white" 
+            size={26} 
+            color="#2E7D32" 
           />
         </TouchableOpacity>
-        {/* Empty space to balance layout */}
         <View style={styles.footerIconPlaceholder} />
         <TouchableOpacity 
           style={styles.footerIcon}
@@ -35,8 +34,8 @@ const Footer = ({ navigation, currentScreen }) => {
         >
           <Ionicons 
             name={currentScreen === 'Leaderboard' ? "podium" : "podium-outline"} 
-            size={28} 
-            color="white" 
+            size={26} 
+            color="#2E7D32" 
           />
         </TouchableOpacity>
       </View>
@@ -49,32 +48,34 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    height: 40,
-    borderTopWidth: 0.5,
-    borderTopColor: '#3a506b',
+    height: 55,
+    backgroundColor: '#FAFAFA',
+    borderTopWidth: 1,
+    borderTopColor: '#E0E0E0',
+    elevation: 4,
   },
   footerIcon: {
-    padding: 5,
+    padding: 6,
   },
   footerIconPlaceholder: {
-    width: 40, // Space in the middle of footer
+    width: 60, // space for the floating button
   },
   floatingActionButton: {
     position: 'absolute',
-    bottom: 40, // Position it to overlap with footer
+    bottom: 25,
     alignSelf: 'center',
-    zIndex: 1, // Ensure it appears above other elements
+    zIndex: 10,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 6,
   },
   buttonCircle: {
     width: 65,
     height: 65,
-    borderRadius: 33, // Half of width/height for a circle
-    backgroundColor: '#00e676', // Bright green button that stands out
+    borderRadius: 32.5,
+    backgroundColor: '#2E7D32',
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 2,

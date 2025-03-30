@@ -23,12 +23,10 @@ const LeaderboardView = ({ navigation }) => {
     setLeaderboardData(sortedData);
   }, []);
 
-  // Render each leaderboard item
   const renderItem = ({ item, index }) => {
-    // Determine rank styling
     let rankStyle = styles.rankText;
     let containerStyle = styles.itemContainer;
-    
+
     if (index === 0) {
       rankStyle = [styles.rankText, styles.firstRank];
       containerStyle = [styles.itemContainer, styles.firstContainer];
@@ -56,58 +54,48 @@ const LeaderboardView = ({ navigation }) => {
   };
 
   return (
-    <LinearGradient
-      colors={['#1a2980', '#004d40']}
-      style={styles.gradientContainer}
-    >
-      <SafeAreaView style={styles.container}>
-        {/* Header */}
-        <Header title="Leaderboard" navigation={navigation} />
-        
-        <View style={styles.customHeader}>
-          <Text style={styles.headerTitle}>Sustainability Leaderboard</Text>
-          <Text style={styles.headerSubtitle}>Making a difference together</Text>
-        </View>
-        
-        <FlatList
-          data={leaderboardData}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.listContent}
-        />
-        
-        {/* Footer */}
-        <Footer navigation={navigation} currentScreen="Leaderboard" />
-      </SafeAreaView>
-    </LinearGradient>
+    <SafeAreaView style={styles.container}>
+      <Header title="Leaderboard" navigation={navigation} />
+
+      <View style={styles.customHeader}>
+        <Text style={styles.headerTitle}>Sustainability Leaderboard</Text>
+        <Text style={styles.headerSubtitle}>Making a difference together</Text>
+      </View>
+
+      <FlatList
+        data={leaderboardData}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.listContent}
+      />
+
+      <Footer navigation={navigation} currentScreen="Leaderboard" />
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  gradientContainer: {
-    flex: 1,
-  },
   container: {
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: '#FAFAFA',
   },
   customHeader: {
     padding: 20,
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
     alignItems: 'center',
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E0E0',
+    backgroundColor: '#ffffff',
   },
   headerTitle: {
     fontSize: 22,
-    fontWeight: 'bold',
-    color: 'white',
-    marginBottom: 5,
+    fontWeight: '700',
+    color: '#2E7D32',
+    marginBottom: 4,
   },
   headerSubtitle: {
     fontSize: 14,
-    color: 'rgba(255, 255, 255, 0.8)',
+    color: '#757575',
   },
   listContent: {
     padding: 16,
@@ -115,37 +103,34 @@ const styles = StyleSheet.create({
   itemContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    backgroundColor: '#ffffff',
     padding: 16,
-    marginBottom: 10,
-    borderRadius: 10,
+    marginBottom: 12,
+    borderRadius: 14,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
     elevation: 2,
   },
   firstContainer: {
-    backgroundColor: 'rgba(255, 215, 0, 0.2)',
     borderWidth: 1,
-    borderColor: 'rgba(255, 215, 0, 0.5)',
+    borderColor: 'gold',
   },
   secondContainer: {
-    backgroundColor: 'rgba(192, 192, 192, 0.2)',
     borderWidth: 1,
-    borderColor: 'rgba(192, 192, 192, 0.5)',
+    borderColor: 'silver',
   },
   thirdContainer: {
-    backgroundColor: 'rgba(205, 127, 50, 0.2)',
     borderWidth: 1,
-    borderColor: 'rgba(205, 127, 50, 0.5)',
+    borderColor: '#CD7F32',
   },
   rankText: {
     fontSize: 18,
     fontWeight: 'bold',
     width: 30,
     textAlign: 'center',
-    color: 'white',
+    color: '#424242',
   },
   firstRank: {
     color: 'gold',
@@ -154,12 +139,12 @@ const styles = StyleSheet.create({
     color: 'silver',
   },
   thirdRank: {
-    color: '#CD7F32', // bronze
+    color: '#CD7F32',
   },
   avatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     marginHorizontal: 10,
   },
   userInfo: {
@@ -167,9 +152,9 @@ const styles = StyleSheet.create({
   },
   nameText: {
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: '600',
+    color: '#212121',
     marginBottom: 4,
-    color: 'white',
   },
   pointsContainer: {
     flexDirection: 'row',
@@ -177,13 +162,13 @@ const styles = StyleSheet.create({
   },
   pointsLabel: {
     fontSize: 12,
-    color: '#b0bec5',
-    marginRight: 5,
+    color: '#757575',
+    marginRight: 4,
   },
   pointsText: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#00e676',
+    color: '#2E7D32',
   },
 });
 
