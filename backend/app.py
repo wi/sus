@@ -1,11 +1,12 @@
-from flask import Flask, request, jsonify
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
-import os
 import base64
+import os
 import uuid
-from openai import OpenAI
+
+import firebase_admin
+from firebase_admin import credentials, firestore
+from flask import Flask, jsonify, request
+
+# from openai import OpenAI
 
 # database
 cred = credentials.Certificate('key.json')

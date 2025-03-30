@@ -17,7 +17,7 @@ const LeaderboardView = ({ navigation }) => {
     const fetchLeaderboard = async () => {
       try {
         // adjust to your ip address
-        const response = await fetch('http://10.142.38.56:5000');
+        const response = await fetch(process.env.BACKEND_URL);
         const data = await response.json();
 
         console.log(data);

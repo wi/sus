@@ -96,6 +96,10 @@ export default function CameraView({ navigation }) {
   const [facing, setFacing] = useState('back');
   const [permission, requestPermission] = useCameraPermissions();
   
+  // Daily quest state
+  const [objectiveCompleted, setObjectiveCompleted] = useState(false);
+  const [objectiveCount, setObjectiveCount] = useState(2);
+  
   // Object detection state from App.js
   const [isTfReady, setIsTfReady] = useState(false);
   const [isModelReady, setIsModelReady] = useState(false);
@@ -122,7 +126,7 @@ export default function CameraView({ navigation }) {
     };
 
     const initializeModelAsync = async () => {
-      model.current = await cocossd.load();
+      model.current = await cocossd.load({base: "mobilenet_v2"});
       setIsModelReady(true);
     };
 
@@ -170,10 +174,10 @@ export default function CameraView({ navigation }) {
           rafId.current = null;
         }
         
-        // Take high quality photo for backend (clean version)
+        // Take high quality photo for backend (clean version) with base64 encoding
         const photo = await cameraRef.current.takePictureAsync({
           quality: 0.9,
-          base64: false,
+          base64: true, // Enable base64 encoding for backend submission
         });
         
         // Store current predictions for the frozen view
@@ -211,49 +215,52 @@ export default function CameraView({ navigation }) {
     
     try {
       console.log("Uploading photo...");
-      // Create form data for the upload - using the clean photo
-      const formData = new FormData();
-      formData.append('photo', {
-        uri: capturedPhoto.uri,
-        type: 'image/jpeg',
-        name: 'photo.jpg',
-      });
+      
+      // Create data object for backend upload
+      const uploadData = {
+        image: capturedPhoto.base64, // Send the base64 encoded image
+        imageType: 'image/jpeg',
+        detectedObjects: []
+      };
       
       // Add detected objects data
       if (capturedPredictions && capturedPredictions.length > 0) {
-        const objectsDetected = capturedPredictions.map(p => ({
+        uploadData.detectedObjects = capturedPredictions.map(p => ({
           class: p.class,
           confidence: p.score,
           bbox: p.bbox
         }));
+      }
+      
+      // Update daily quest counter and completion status
+      if (objectiveCount < 3) {
+        setObjectiveCount(3);
+        setObjectiveCompleted(true);
+      }
+      
+      // console.log("Photo data ready for upload:", uploadData.detectedObjects);
+
+      // Send to backend
+      // try {
+      //   const response = await fetch(process.env.BACKEND_URL + '/upload', {
+      //     method: 'POST',
+      //     body: JSON.stringify(uploadData),
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //   });
         
-        formData.append('detectedObjects', JSON.stringify(objectsDetected));
-      }
-      
-      // For testing - just pretend we sent it
-      console.log("Would send to backend:", capturedPhoto.uri);
-      alert("Photo would be sent to backend (API endpoint not configured)");
-      
-      // Uncomment this to actually send to backend
-      /*
-      // Send to backend - Replace with your actual endpoint URL
-      const response = await fetch('https://your-backend-url.com/api/upload', {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      
-      if (response.ok) {
-        const result = await response.json();
-        console.log('Upload success:', result);
-        alert('Photo uploaded successfully!');
-      } else {
-        console.log('Upload failed:', response.status);
-        alert('Failed to upload photo. Please try again.');
-      }
-      */
+      //   if (response.ok) {
+      //     console.log('Upload success');
+      //     alert('Photo uploaded successfully!');
+      //   } else {
+      //     console.log('Upload failed:', response.status);
+      //     alert('Failed to upload photo. Please try again.');
+      //   }
+      // } catch (error) {
+      //   console.log('API call error:', error);
+      //   alert("Photo would be sent to /upload endpoint (Backend not available)");
+      // }
       
       // Reset after upload attempt (success or failure)
       setTimeout(() => {
@@ -440,6 +447,20 @@ export default function CameraView({ navigation }) {
       <SafeAreaView style={styles.container}>
         {/* Header */}
         <Header title="Object Detection" navigation={navigation} />
+        
+        {/* Daily Quest Objective */}
+        <View style={styles.objectiveContainer}>
+          <View style={styles.checkboxContainer}>
+            <TouchableOpacity 
+              style={[styles.checkbox, objectiveCompleted && styles.checkboxChecked]}
+              disabled={true}
+            >
+              {objectiveCompleted && <Text style={styles.checkmark}>✓</Text>}
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.objectiveText}>Daily Quest: Use a Reusable Bottle</Text>
+          <Text style={styles.objectiveCounter}>{objectiveCount}/3</Text>
+        </View>
         
         {/* TensorFlow status indicators */}
         <View style={styles.statusContainer}>
@@ -660,6 +681,53 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'transparent',
+  },
+  objectiveContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    paddingVertical: 12,
+    paddingHorizontal: 15,
+    marginHorizontal: 12,
+    marginTop: 5,
+    borderRadius: 10,
+  },
+  checkboxContainer: {
+    marginRight: 10,
+  },
+  checkbox: {
+    width: 24,
+    height: 24,
+    borderRadius: 5,
+    borderWidth: 2,
+    borderColor: '#ffffff',
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  checkboxChecked: {
+    backgroundColor: '#4caf50',
+    borderColor: '#4caf50',
+  },
+  checkmark: {
+    color: '#ffffff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  objectiveText: {
+    flex: 1,
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  objectiveCounter: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: 'bold',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    paddingHorizontal: 10,
+    paddingVertical: 2,
+    borderRadius: 12,
   },
   statusContainer: {
     flexDirection: 'row',
