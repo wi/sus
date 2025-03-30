@@ -3,6 +3,7 @@ import { View, Text, FlatList, StyleSheet, Image, SafeAreaView } from 'react-nat
 import { LinearGradient } from 'expo-linear-gradient';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { ip } from '../config';
 
 function getRandomInt() {
   return Math.floor(Math.random() * 10 + 1);
@@ -17,7 +18,7 @@ const LeaderboardView = ({ navigation }) => {
     const fetchLeaderboard = async () => {
       try {
         // adjust to your ip address
-        const response = await fetch(process.env.BACKEND_URL);
+        const response = await fetch(ip);
         const data = await response.json();
 
         console.log(data);
@@ -25,13 +26,13 @@ const LeaderboardView = ({ navigation }) => {
         // data should be an array of user objects: 
         //   [{ id, username, sustainability_score, email }, ...]
         // Map them to the structure your leaderboard expects
-        const mappedData = data.map((user) => ({
+        const mappedData = data.map((user, i) => ({
           id: user.id,
           name: user.username,
           points: user.sustainability_score,
           // If you don't have an avatar URL in your DB,
           // you can provide a fallback or generate one
-          avatar: user.avatar || 'https://randomuser.me/api/portraits/men/' + getRandomInt() + '.jpg',
+          avatar: user.avatar || 'https://randomuser.me/api/portraits/men/'+ (i + 1) + '.jpg',
         }));
 
         // If the backend isn't already returning them sorted,

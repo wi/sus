@@ -5,6 +5,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
+import { ip } from '../config';
+
 // TensorFlow and object detection imports
 import * as tf from "@tensorflow/tfjs";
 import "@tensorflow/tfjs-react-native";
@@ -244,26 +246,28 @@ export default function CameraView({ navigation }) {
       // console.log("Photo data ready for upload:", uploadData.detectedObjects);
 
       // Send to backend
-      // try {
-      //   const response = await fetch(process.env.BACKEND_URL + '/upload', {
-      //     method: 'POST',
-      //     body: JSON.stringify(uploadData),
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     },
-      //   });
+      try {
+        const url = `${ip}/create_post`;
+        console.log("Sending photo to:", url);
+        const response = await fetch(url, {
+          method: 'POST',
+          body: JSON.stringify(uploadData),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
         
-      //   if (response.ok) {
-      //     console.log('Upload success');
-      //     alert('Photo uploaded successfully!');
-      //   } else {
-      //     console.log('Upload failed:', response.status);
-      //     alert('Failed to upload photo. Please try again.');
-      //   }
-      // } catch (error) {
-      //   console.log('API call error:', error);
-      //   alert("Photo would be sent to /upload endpoint (Backend not available)");
-      // }
+        if (response.ok) {
+          console.log('Upload success');
+          alert('Photo uploaded successfully!');
+        } else {
+          console.log('Upload failed:', response.status);
+          alert('Failed to upload photo. Please try again.');
+        }
+      } catch (error) {
+        console.log('API call error:', error);
+        alert("Photo would be sent to /upload endpoint (Backend not available)");
+      }
       
       // Reset after upload attempt (success or failure)
       setTimeout(() => {

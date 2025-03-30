@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';  // Add useEffect import
 import { View, Text, Image, StyleSheet, TouchableOpacity, SafeAreaView, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+
+import { ip } from '../config';
 
 export default function HomeFeedView({ navigation }) {
   const [posts, setPosts] = useState([
@@ -67,6 +69,40 @@ export default function HomeFeedView({ navigation }) {
       time: '2 days ago',
     }
   ]);
+
+  useEffect(() => {
+    fetchLatestPost();
+  }, []);
+
+  const fetchLatestPost = async () => {
+    try {
+      const response = await fetch(ip + '/latest_post');
+      const data = await response.json();
+
+      console.log(data);
+      
+      if (data && data.image_url) {
+        // Create a new post object with the received data
+        const newPost = {
+          id: Date.now().toString(), // temporary ID
+          user: {
+            name: 'rumi',  // You might want to fetch user details separately
+            profilePic: 'https://randomuser.me/api/portraits/men/1.jpg',
+          },
+          image: `${ip}/${data.image_url}`,
+          caption: 'New sustainable post!',
+          likes: 0,
+          comments: 0,
+          time: 'Just now'
+        };
+
+        // Add the new post to the beginning of the posts array
+        setPosts(prevPosts => [newPost, ...prevPosts]);
+      }
+    } catch (error) {
+      console.error('Error fetching latest post:', error);
+    }
+  };
 
   const renderPost = ({ item }) => (
     <View style={styles.post}>
