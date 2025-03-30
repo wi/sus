@@ -155,7 +155,11 @@ export default function CameraView({ navigation }) {
   const scalingFactor = cameraWidth / 300;
 
   if (!permission) {
-    return <View style={styles.container}><Text>Requesting camera permissions...</Text></View>;
+    return (
+      <View style={styles.permissionContainer}>
+        <Text style={styles.permissionText}>Requesting camera permissions...</Text>
+      </View>
+    );
   }
 
   if (!permission.granted) {
@@ -290,16 +294,14 @@ const styles = StyleSheet.create({
   },
   camera: {
     flex: 1,
+    marginHorizontal: 12,
+    marginVertical: 16,
+    borderRadius: 16,
+    overflow: 'hidden',
   },
   buttonContainer: {
     flex: 1,
-    flexDirection: 'row',
-    backgroundColor: 'transparent',
-    margin: 64,
-  },
-  button: {
-    flex: 1,
-    alignSelf: 'flex-end',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     padding: 10,
@@ -331,23 +333,24 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#1a2980',
-    padding: 20,
+    backgroundColor: '#FAFAFA',
+    padding: 24,
   },
   permissionText: {
-    color: 'white',
+    color: '#2E7D32',
     fontSize: 18,
     textAlign: 'center',
     marginBottom: 20,
   },
   permissionButton: {
-    backgroundColor: 'white',
-    padding: 15,
+    backgroundColor: '#2E7D32',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
     borderRadius: 10,
   },
   permissionButtonText: {
-    color: '#1a2980',
-    fontSize: 16,
+    color: 'white',
     fontWeight: 'bold',
+    fontSize: 16,
   },
 });
