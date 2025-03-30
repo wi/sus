@@ -117,20 +117,21 @@ export default function HomeFeedView({ navigation }) {
 
       <View style={styles.postActions}>
         <View style={styles.leftActions}>
-          <TouchableOpacity style={styles.actionButton}>
-            <Ionicons name="heart-outline" size={28} color="#2E7D32" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.actionButton}>
-            <Ionicons name="chatbubble-outline" size={24} color="#2E7D32" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.actionButton}>
+            <TouchableOpacity style={styles.actionButton}>
+            <Ionicons name="earth-outline" size={28} color="#2E7D32" />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.actionButton}>
+            <Ionicons name="leaf-outline" size={24} color="#2E7D32" />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.actionButton}>
             <Ionicons name="paper-plane-outline" size={24} color="#2E7D32" />
-          </TouchableOpacity>
+            </TouchableOpacity>
         </View>
         <TouchableOpacity>
-          <Ionicons name="bookmark-outline" size={24} color="#2E7D32" />
+            <Ionicons name="bookmark-outline" size={24} color="#2E7D32" />
         </TouchableOpacity>
-      </View>
+        </View>
+
 
       <Text style={styles.likes}>{item.likes} likes</Text>
 

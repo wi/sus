@@ -857,11 +857,71 @@ const statsPanelStyles = StyleSheet.create({
 const styles = StyleSheet.create({
   gradientContainer: {
     flex: 1,
+    backgroundColor: '#FAFAFA',
   },
   container: {
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: '#FAFAFA',
   },
+  feedContent: {
+    padding: 12,
+  },
+  post: {
+    marginBottom: 20,
+    backgroundColor: '#ffffff',
+    borderRadius: 14,
+    marginHorizontal: 4,
+    shadowColor: '#000',
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 3,
+  },
+  postHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+  },
+  username: {
+    flex: 1,
+    marginLeft: 10,
+    fontWeight: '600',
+    fontSize: 15,
+    color: '#2E7D32',
+  },
+  actionContainer: {
+    paddingTop: 10,
+    paddingHorizontal: 12,
+    paddingBottom: 30,
+  },
+  button: {
+    backgroundColor: '#2E7D32',
+    paddingVertical: 14,
+    paddingHorizontal: 30,
+    borderRadius: 12,
+    width: '100%',
+    marginBottom: 10,
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  buttonSecondary: {
+    backgroundColor: '#C5E1A5',
+    paddingVertical: 14,
+    paddingHorizontal: 30,
+    borderRadius: 12,
+    width: '100%',
+  },
+  buttonTextSecondary: {
+    color: '#2E7D32',
+    fontWeight: 'bold',
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  // ...rest of existing styles...
   objectiveContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -880,31 +940,26 @@ const styles = StyleSheet.create({
     height: 24,
     borderRadius: 5,
     borderWidth: 2,
-    borderColor: '#ffffff',
+    borderColor: '#2E7D32', // Changed from '#ffffff' to '#2E7D32'
     backgroundColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',
   },
   checkboxChecked: {
-    backgroundColor: '#4caf50',
-    borderColor: '#4caf50',
-  },
-  checkmark: {
-    color: '#ffffff',
-    fontSize: 18,
-    fontWeight: 'bold',
+    backgroundColor: '#2E7D32', // Already correct color
+    borderColor: '#2E7D32', // Already correct color
   },
   objectiveText: {
     flex: 1,
-    color: '#ffffff',
+    color: '#2E7D32',
     fontSize: 16,
     fontWeight: '600',
   },
   objectiveCounter: {
-    color: '#ffffff',
+    color: '#2E7D32', // Changed from '#ffffff' to '#2E7D32'
     fontSize: 16,
     fontWeight: 'bold',
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)', // Changed background to be lighter
     paddingHorizontal: 10,
     paddingVertical: 2,
     borderRadius: 12,
@@ -1007,10 +1062,13 @@ const styles = StyleSheet.create({
   },
   predictionContainer: {
     padding: 10,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    marginHorizontal: 12,
+    marginBottom: 10,
+    borderRadius: 10,
   },
   predictionTitle: {
-    color: 'white',
+    color: '#2E7D32',
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',

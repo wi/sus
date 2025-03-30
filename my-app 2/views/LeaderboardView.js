@@ -83,7 +83,14 @@ const LeaderboardView = ({ navigation }) => {
       <Header title="Leaderboard" navigation={navigation} />
 
       <View style={styles.customHeader}>
-        <Text style={styles.headerTitle}>Sustainability Leaderboard</Text>
+        <View style={styles.prizeContainer}>
+          <Text style={styles.prizeText}>Weekly Prize: $25 Raising Cane's</Text>
+          <Image 
+            source={require('../assets/raising_cane.png')} 
+            style={styles.prizeLogo}
+          />
+        </View>
+        <Text style={styles.headerTitle}>Top Sustainers</Text>
         <Text style={styles.headerSubtitle}>Making a difference together</Text>
       </View>
 
@@ -194,6 +201,32 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#2E7D32',
+  },
+  prizeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#ffffff',
+    padding: 12,
+    borderRadius: 12,
+    marginVertical: 12,
+    borderWidth: 2,
+    borderColor: '#2E7D32',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  prizeText: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#2E7D32',
+    marginRight: 10,
+  },
+  prizeLogo: {
+    width: 40,
+    height: 40,
+    resizeMode: 'contain',
   },
 });
 
