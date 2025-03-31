@@ -431,7 +431,7 @@ export default function CameraView({ navigation }) {
   const handleObjectTap = (prediction) => {
     if (prediction.class === 'bottle' || prediction.class === 'cup') {
       setSelectedObject('bottle'); // Treat both bottles and cups the same
-    } else if (prediction.class === 'car') {
+    } else if (prediction.class === 'car' || prediction.class === 'truck') {
       setSelectedObject('car');
     } else {
       setSelectedObject(null);
@@ -476,7 +476,7 @@ export default function CameraView({ navigation }) {
               {objectiveCompleted && <Text style={styles.checkmark}>✓</Text>}
             </TouchableOpacity>
           </View>
-          <Text style={styles.objectiveText}>Daily Quest: Use a Reusable Bottle</Text>
+          <Text style={styles.objectiveText}>Daily Quest: Use a Bottle</Text>
           <Text style={styles.objectiveCounter}>{objectiveCount}/3</Text>
         </View>
         
@@ -737,14 +737,14 @@ const StatsPanel = ({ objectType, onClose }) => {
         ],
         tip: 'Using a reusable bottle can save 1,460 plastic bottles per year.'
       };
-    } else if (objectType === 'car') {
+    } else if (objectType === 'car' || objectType === 'truck') {
       return {
-        title: 'Average Car Emissions',
+        title: 'F-150 Truck Emissions',
         stats: [
-          { label: 'CO2 per mile', value: '404g' },
-          { label: 'Annual emissions', value: '4.6 tons' },
-          { label: 'Fuel efficiency', value: '25.4 mpg' },
-          { label: 'EV comparison', value: '50-60% less CO2' }
+          { label: 'CO2 per mile', value: '650g' },
+          { label: 'Annual emissions', value: '8.2 tons' },
+          { label: 'Fuel efficiency', value: '20 mpg' },
+          { label: 'EV comparison', value: 'F-150 Lightning' }
         ],
         tip: 'Walking or cycling for short trips can reduce your carbon footprint significantly.'
       };

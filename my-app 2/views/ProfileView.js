@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { ProgressBar } from 'react-native-paper';
-import { MaterialCommunityIcons } from '@expo/vector-icons'; // Icons library (make sure it's installed)
+import { Ionicons } from '@expo/vector-icons'; // Icons library (make sure it's installed)
 
 export default function ProfileView({ navigation }) {
   return (
@@ -18,7 +18,7 @@ export default function ProfileView({ navigation }) {
         </View>
         <View style={styles.infoContainer}>
           <Text style={styles.label}>Email:</Text>
-          <Text style={styles.value}>rumi.Khamidov@gmail.com</Text>
+          <Text style={styles.value}>rkham@virginia.edu</Text>
         </View>
 
         {/* Sustainability Impact */}
@@ -29,7 +29,7 @@ export default function ProfileView({ navigation }) {
           <View style={styles.cardRow}>
             <View style={styles.statCard}>
               <View style={styles.iconCircle}>
-                <MaterialCommunityIcons name="leaf" size={24} color="#2E7D32" />
+                <Ionicons name="leaf" size={24} color="#2E7D32" />
               </View>
               <Text style={styles.cardLabel}>CO₂ Saved</Text>
               <Text style={styles.cardValue}>18.4 kg</Text>
@@ -37,7 +37,7 @@ export default function ProfileView({ navigation }) {
 
             <View style={styles.statCard}>
               <View style={styles.iconCircle}>
-                <MaterialCommunityIcons name="water" size={24} color="#0288D1" />
+                <Ionicons name="water" size={24} color="#0288D1" />
               </View>
               <Text style={styles.cardLabel}>Water Saved</Text>
               <Text style={styles.cardValue}>124.5 gal</Text>
@@ -47,7 +47,7 @@ export default function ProfileView({ navigation }) {
           <View style={styles.cardRow}>
             <View style={styles.statCard}>
               <View style={styles.iconCircle}>
-                <MaterialCommunityIcons name="flag-checkered" size={24} color="#FF8F00" />
+                <Ionicons name="flag-checkered" size={24} color="#FF8F00" />
               </View>
               <Text style={styles.cardLabel}>Challenges</Text>
               <Text style={styles.cardValue}>7</Text>
@@ -55,7 +55,7 @@ export default function ProfileView({ navigation }) {
 
             <View style={styles.statCard}>
               <View style={styles.iconCircle}>
-                <MaterialCommunityIcons name="target" size={24} color="#C62828" />
+                <Ionicons name="target" size={24} color="#C62828" />
               </View>
               <Text style={styles.cardLabel}>2030 Impact</Text>
               <Text style={styles.cardValue}>~0.003%</Text>
